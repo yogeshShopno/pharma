@@ -297,28 +297,45 @@ const InventoryView = () => {
       });
   };
 
-  let listDrougGroup = () => {
-    axios
-      .post("drug-list", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setDrugGroupList(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("API error:", error);
-           if (error?.response?.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("role");
-        localStorage.clear();
-        history.push("/");
+
+    // Core List API (backend pagination + search)
+    const listDrougGroup = (page = 1, isSearch = false) => {
+      if (!page) return;
+      setIsLoading(!isSearch);
+      setIsSearching(isSearch);
+  
+      const formData = new FormData();
+      
+      formData.append("page", page);
+      formData.append("limit", rowsPerPage);
+      if (searchTerms[0] && searchTerms[0].trim()) {
+        formData.append("search", searchTerms[0].trim());
       }
-      });
-  };
+  
+      axios
+        .post("drug-list", formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setDrugGroupList(response.data.data || []);
+          setTotalRecords(Number(response.data.total_records) || 0);
+          setIsLoading(false);
+          setIsSearching(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+          setIsSearching(false);
+          setDrugGroupList([]);
+          setTotalRecords(0);
+             if (error?.response?.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("role");
+          localStorage.clear();
+          history.push("/");
+        }
+        });
+    };
 
   // const validationUpdateItem = async () => {
   //     const newErrors = {};

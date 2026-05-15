@@ -118,6 +118,7 @@ const DrugGroup = () => {
     setIsSearching(isSearch);
 
     const formData = new FormData();
+
     formData.append("page", page);
     formData.append("limit", rowsPerPage);
     if (searchTerms[0] && searchTerms[0].trim()) {
@@ -139,15 +140,17 @@ const DrugGroup = () => {
         setIsSearching(false);
         setDrugGroupData([]);
         setTotalRecords(0);
-           if (error?.response?.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("role");
-        localStorage.clear();
-        history.push("/");
-      }
+        if (error?.response?.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("role");
+          localStorage.clear();
+          history.push("/");
+        }
       });
   };
+
+
 
   // Search input handler (debounced, backend) - UPDATED FROM COMPANY
   const handleSearchChange = (index, value) => {
@@ -199,7 +202,7 @@ const DrugGroup = () => {
     } catch (error) {
       toast.dismiss();
       toast.error(error?.response?.data?.message || "Error");
-         if (error?.response?.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("role");
@@ -224,7 +227,7 @@ const DrugGroup = () => {
     } catch (error) {
       toast.dismiss();
       toast.error(error?.response?.data?.message || "Error");
-         if (error?.response?.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("role");
@@ -261,7 +264,7 @@ const DrugGroup = () => {
     } catch (error) {
       toast.dismiss();
       toast.error("Error deleting Drug Group");
-         if (error?.response?.status === 401) {
+      if (error?.response?.status === 401) {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("role");
@@ -383,7 +386,7 @@ const DrugGroup = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => handleRowClick(item.id)}
                           >
-                            
+
                             {item[column.id]
                               ? item[column.id].toString().slice(0, 50) + (item[column.id].toString().length > 50 ? "…" : "")
                               : "-"}
