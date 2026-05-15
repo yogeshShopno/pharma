@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { format, subDays, addYears } from "date-fns";
 import { Button } from "@mui/material";
 import Loader from "../../../componets/loader/Loader"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Plans = () => {
   const token = localStorage.getItem("token");
@@ -16,6 +17,7 @@ const Plans = () => {
   const [togglePage, setTogglePage] = useState(true);
   const [plansDetails, setPlansDetails] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const history = useHistory();
 
   /*<============================================================================== Plans column ==============================================================================> */
 
@@ -40,8 +42,10 @@ const Plans = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("list-plan?", {}, {
-
+      const response = await axios.post("list-plan?",{}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.status == 200) {
@@ -58,7 +62,10 @@ const Plans = () => {
         history.push("/");
       }
       console.error("API error:", error);
-      setIsLoading(false);
+   
+
+    }finally{
+    setIsLoading(false);
 
     }
   };
@@ -177,11 +184,13 @@ const Plans = () => {
   const getPurchaseHistory = async () => {
 
     try {
-      const response = await axios.get("payment-history?", {}, {
+      const response = await axios.get("payment-history?", 
+        {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+    
 
       if (response.status == 200) {
         setTableData(response.data.data);
