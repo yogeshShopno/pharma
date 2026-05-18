@@ -963,7 +963,7 @@ const ReturnList = () => {
                   AllPDFGenerate();
                 }}
               >
-                Genrate
+                generate
               </Button>
               <Button
                 autoFocus

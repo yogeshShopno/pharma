@@ -722,7 +722,7 @@ const Salelist = () => {
                   AllPDFGenerate();
                 }}
               >
-                Genrate
+                generate
               </Button>
               <Button
                 autoFocus

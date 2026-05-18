@@ -59,6 +59,8 @@ import CompanyItemWise from './Pages/More/Reports/Others/CompanyItemWise';
 import StaffWiseActivity from './Pages/More/Reports/Others/Staff_Wise_Activity';
 import SaleSummary from './Pages/More/Reports/Others/SaleSummary';
 import Inventory_Reconciliation from './Pages/More/Reports/StockReport/Inventory_Reconciliation';
+import Expiring_Items from './Pages/More/Reports/StockReport/Expiring_Items';
+
 import Item_Batch_wiseStock from './Pages/More/Reports/StockReport/Item_Batch_wiseStock';
 import Non_Moving_items from './Pages/More/Reports/StockReport/Non_Moving_Items';
 import Stock_AdjustMent_Report from './Pages/More/Reports/StockReport/Stock_AdjustMent_Report';
@@ -739,6 +741,11 @@ function App() {
             <Route path='/stock-inventory-reconciliation'>
               <Protected>
                 <Inventory_Reconciliation />
+              </Protected>
+            </Route>
+               <Route path='/stock-expiring-items'>
+              <Protected>
+                <Expiring_Items />
               </Protected>
             </Route>
             <Route path='/stock-item-batchwise'>

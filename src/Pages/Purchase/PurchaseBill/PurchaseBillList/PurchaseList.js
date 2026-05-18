@@ -883,7 +883,7 @@ const Purchasebill = () => {
               AllPDFGenerate();
             }}
           >
-            Genrate
+            generate
           </Button>
           <Button
             autoFocus

@@ -81,6 +81,11 @@ const ReportsMain = () => {
       path: "/stock-inventory-reconciliation",
       icon: StockIcon,
     },
+    {
+      name: "Expiring Items",
+      path: "/stock-expiring-items",
+      icon: StockIcon,
+    },
   ];
 
   const othersReports = [

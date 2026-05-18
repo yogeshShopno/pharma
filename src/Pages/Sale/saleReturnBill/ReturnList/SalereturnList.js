@@ -744,7 +744,7 @@ const SalereturnList = () => {
                   AllPDFGenerate();
                 }}
               >
-                Genrate
+                generate
               </Button>
               <Button
                 autoFocus
