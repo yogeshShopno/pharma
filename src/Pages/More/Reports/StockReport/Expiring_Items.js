@@ -37,15 +37,13 @@ const Expiring_Items = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [drugGroup, setDrugGroup] = useState("");
-  const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
   const [expiryDateData, setExpiryDateData] = useState([]);
-  const totalPages = Math.ceil(
-    expiryDateData?.purches_return?.length / rowsPerPage
-  );
+  const [totalRecords, setTotalRecords] = useState(0);
+
+  const totalPages = Math.ceil(totalRecords / rowsPerPage);
 
   const csvIcon = process.env.PUBLIC_URL + "/csv.png";
   const ExpiryItemsColumns = [
@@ -92,11 +90,12 @@ const Expiring_Items = () => {
   };
 
   const handleNext = () => {
-    const newPage = currentPage + 1;
-    setCurrentPage(newPage);
-    handlefilterData(newPage);
+    if (currentPage < totalPages) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      handlefilterData(newPage);
+    }
   };
-
   const handlefilterData = async (currentPage) => {
     let data = new FormData();
     setIsLoading(true);
@@ -119,13 +118,16 @@ const Expiring_Items = () => {
           },
         })
         .then((response) => {
-          setIsLoading(false);
-          setExpiryDateData(response.data.data);
-          if (response.data.data.length >= rowsPerPage) {
-            setNextButtonDisabled(false);
-          } else {
-            setNextButtonDisabled(true);
-          }
+          const responseData = response.data.data || [];
+
+          setExpiryDateData(responseData);
+
+          const totalCount =
+            responseData?.length > 0
+              ? Number(response.data.total_records)
+              : 0;
+
+          setTotalRecords(totalCount);
         })
     } catch (error) {
       console.error("API error:", error);
@@ -281,7 +283,10 @@ const Expiring_Items = () => {
                           height: "40px",
                         }}
                         variant="contained"
-                        onClick={() => handlefilterData(currentPage)}
+                        onClick={() => {
+                          setCurrentPage(1);
+                          handlefilterData(1);
+                        }}
                       >
                         Go
                       </Button>
@@ -382,12 +387,7 @@ const Expiring_Items = () => {
                     ))}
                     <button
                       onClick={handleNext}
-                      className={`mx-1 px-3 py-1 rounded ${nextButtonDisabled
-                        ? "bg-gray-200 text-gray-700"
-                        : "secondary-bg text-white"
-                        }`}
-                      disabled={nextButtonDisabled}
-                    >
+                      className={"mx-1 px-3 py-1 rounded secondary-bg text-white"}>
                       Next
                     </button>
                   </div>
