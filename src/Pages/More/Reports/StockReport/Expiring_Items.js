@@ -356,11 +356,11 @@ const Expiring_Items = () => {
                     </table>
                   </div>
                   <div
-                    className="mt-4 space-x-1"
+                    className="flex justify-center mt-4"
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      width: "100%",
+                      display: 'flex',
+                      justifyContent: 'center',
+                      width: '100%',
                     }}
                   >
                     <button
@@ -373,21 +373,44 @@ const Expiring_Items = () => {
                     >
                       Previous
                     </button>
-                    {Array.from({ length: totalPages }, (_, i) => (
+                    {currentPage > 2 && (
                       <button
-                        key={i}
-                        onClick={() => handleClick(i + 1)}
-                        className={`mx-1 px-3 py-1 rounded ${currentPage === i + 1
-                          ? "secondary-bg text-white"
-                          : "bg-gray-200 text-gray-700"
-                          }`}
+                        onClick={() => handleClick(currentPage - 2)}
+                        className="mx-1 px-3 py-1 rounded bg-gray-200 text-gray-700"
                       >
-                        {i + 1}
+                        {currentPage - 2}
                       </button>
-                    ))}
+                    )}
+                    {currentPage > 1 && (
+                      <button
+                        onClick={() => handleClick(currentPage - 1)}
+                        className="mx-1 px-3 py-1 rounded bg-gray-200 text-gray-700"
+                      >
+                        {currentPage - 1}
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleClick(currentPage)}
+                      className="mx-1 px-3 py-1 rounded secondary-bg text-white"
+                    >
+                      {currentPage}
+                    </button>
+                    {currentPage < totalPages && (
+                      <button
+                        onClick={() => handleClick(currentPage + 1)}
+                        className="mx-1 px-3 py-1 rounded bg-gray-200 text-gray-700"
+                      >
+                        {currentPage + 1}
+                      </button>
+                    )}
                     <button
                       onClick={handleNext}
-                      className={"mx-1 px-3 py-1 rounded secondary-bg text-white"}>
+                      className={`mx-1 px-3 py-1 rounded ${currentPage >= totalPages
+                        ? "bg-gray-200 text-gray-700"
+                        : "secondary-bg text-white"
+                        }`}
+                      disabled={currentPage >= totalPages}
+                    >
                       Next
                     </button>
                   </div>
